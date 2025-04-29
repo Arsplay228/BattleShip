@@ -16,14 +16,19 @@ class Field:
         for i, row in enumerate(self.grid):
             display_row = ""
             for cell in row:
-                if cell is None or (cell is not None and not show_ships):
-                    display_row += "O "
+                if cell == "X":
+                    display_row += "X "
+                elif cell == "#":
+                    display_row += "# "
+                elif cell == "S":
+                    display_row += "■ " if show_ships else "O "
                 else:
-                    display_row += "■ "
+                    display_row += "O "
             if i + 1 != 10:
                 print(i + 1, " ", display_row)
             else:
                 print(i + 1, "", display_row)
+
 
 class BattleshipGame:
     def __init__(self):
@@ -69,6 +74,30 @@ class BattleshipGame:
         self.place_ships_randomly(self.player_field, self.ships)
         self.player_field.display(show_ships=True)
 
+        while True:
+            x = input("Введите букву")
+            y = int(input("Введите число"))
+
+            self.player_turn(x, y)
+            print("Расстановка кораблей компьютера:")
+            self.computer_field.display(show_ships=False)
+            print("Ваша расстановка кораблей:")
+            self.player_field.display(show_ships=True)
+
+            if self.computer_field.ships_alive <= 1:
+                print("Вы победили!")
+                break
+
+            self.computer_turn()
+            print("Расстановка кораблей компьютера:")
+            self.computer_field.display(show_ships=False)
+            print("Ваша расстановка кораблей:")
+            self.player_field.display(show_ships=True)
+
+            if self.player_field.ships_alive <= 1:
+                print("Вы проиграли!")
+                break
+
     def player_turn(self, x, y):
         letters = "ABCDEFGHIJ"
         x_index = letters.index(x.upper())
@@ -79,6 +108,7 @@ class BattleshipGame:
             self.computer_field.grid[y_index][x_index] = "X"
             self.computer_field.ships_alive -= 1
         else:
+            self.computer_field.grid[y_index][x_index] = "#"
             print("Промах!")
 
     def computer_turn(self):
@@ -90,6 +120,11 @@ class BattleshipGame:
             self.computer_field.grid[y_index][x_index] = "X"
             self.computer_field.ships_alive -= 1
         else:
+            self.computer_field.grid[y_index][x_index] = "#"
             print("Компьютер промахнулся!")
 
-BattleshipGame()
+
+
+
+
+BattleshipGame().play()
