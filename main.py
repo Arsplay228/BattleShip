@@ -81,4 +81,15 @@ class BattleshipGame:
         else:
             print("Промах!")
 
+    def computer_turn(self):
+        x_index = random.randint(0, self.size - 1)
+        y_index = random.randint(0, self.size - 1)
+        cell = self.player_field.grid[y_index][x_index]
+        if cell == "S":
+            print("Компьютер попал!")
+            self.computer_field.grid[y_index][x_index] = "X"
+            self.computer_field.ships_alive -= 1
+        else:
+            print("Компьютер промахнулся!")
+
 BattleshipGame()
