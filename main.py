@@ -69,4 +69,16 @@ class BattleshipGame:
         self.place_ships_randomly(self.player_field, self.ships)
         self.player_field.display(show_ships=True)
 
+    def player_turn(self, x, y):
+        letters = "ABCDEFGHIJ"
+        x_index = letters.index(x.upper())
+        y_index = y - 1
+        cell = self.computer_field.grid[y_index][x_index]
+        if cell == "S":
+            print("Вы попали!")
+            self.computer_field.grid[y_index][x_index] = "X"
+            self.computer_field.ships_alive -= 1
+        else:
+            print("Промах!")
+
 BattleshipGame()
