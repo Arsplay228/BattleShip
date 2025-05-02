@@ -79,16 +79,17 @@ class BattleshipGame:
             y = int(input("Введите число"))
 
             self.player_turn(x, y)
-            print("Расстановка кораблей компьютера:")
-            self.computer_field.display(show_ships=False)
-            print("Ваша расстановка кораблей:")
-            self.player_field.display(show_ships=True)
-
             if self.computer_field.ships_alive <= 1:
                 print("Вы победили!")
                 break
 
             self.computer_turn()
+
+            if self.player_field.ships_alive <= 1:
+                print("Вы проиграли!")
+                break
+
+            # Показываем поля один раз за цикл
             print("Расстановка кораблей компьютера:")
             self.computer_field.display(show_ships=False)
             print("Ваша расстановка кораблей:")
@@ -117,10 +118,10 @@ class BattleshipGame:
         cell = self.player_field.grid[y_index][x_index]
         if cell == "S":
             print("Компьютер попал!")
-            self.computer_field.grid[y_index][x_index] = "X"
-            self.computer_field.ships_alive -= 1
+            self.player_field.grid[y_index][x_index] = "X"
+            self.player_field.ships_alive -= 1
         else:
-            self.computer_field.grid[y_index][x_index] = "#"
+            self.player_field.grid[y_index][x_index] = "#"
             print("Компьютер промахнулся!")
 
 
